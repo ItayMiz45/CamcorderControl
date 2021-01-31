@@ -28,11 +28,11 @@ namespace GUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private User connectedUser;
-
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
+
+            MainFrame.Content = new SigningPage(this);
         }
 
         private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
@@ -55,45 +55,18 @@ namespace GUI
                 Application.Current.MainWindow.WindowState = WindowState.Maximized;
             else
                 Application.Current.MainWindow.WindowState = WindowState.Normal;
-            }
+        }
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.MainWindow.WindowState = WindowState.Minimized;
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if(!(MainFrame.Content is SigningPage)) // if logout is pressed and we are not in signing page, go to singing page
             {
-                connectedUser = SQLiteDataAccess.GetUser(UsernameTextbox.Text);
-            }
-            catch(InvalidOperationException) // user doesn't exist
-            {
-                MessageBox.Show($"User doesn't exists", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void SignupButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                User newUser = new User(UsernameTextbox.Text);
-                SQLiteDataAccess.AddUser(newUser);
-                MessageBox.Show("User added successfully", "Good job", MessageBoxButton.OK, MessageBoxImage.Information);
-                connectedUser = newUser;
-            }
-            catch(SQLiteException err)
-            {
-                switch ((SQLiteDataAccess.SQLiteErrorCodes)err.ErrorCode)
-                {
-                    case SQLiteDataAccess.SQLiteErrorCodes.UniqueError:
-                        MessageBox.Show($"User {UsernameTextbox.Text} already exists", "Error!",MessageBoxButton.OK, MessageBoxImage.Error);
-                        break;
-                    default:
-                        MessageBox.Show($"Unknown SQL error", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        break;
-                }
+                MainFrame.Content = new SigningPage(this);
             }
         }
     }

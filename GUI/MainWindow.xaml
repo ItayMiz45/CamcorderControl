@@ -9,8 +9,11 @@
         AllowsTransparency="True"
         ResizeMode="CanResizeWithGrip" 
         MouseDown="MainWindow_MouseDown"
+        MinWidth="380"
+        MinHeight="400"
         x:Name="MyMainWindow"
-        Title="MainWindow" Height="450" Width="600">
+        Title="MainWindow" Height="400" Width="380">
+
     <Grid Margin="0,0,0,0" Background="#FF36393F">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -81,76 +84,31 @@
                     </Style>
                 </Button.Style>
             </Button>
+
+            <Button x:Name="LogoutButton" IsCancel="True" Visibility="Hidden" DockPanel.Dock="Left" Content="&#x003C;&#x1806;&#x1806;" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" Width="25" Height="25" BorderBrush="{x:Null}" Foreground="#FFB9BBBE" FontFamily="Eras ITC" VerticalAlignment="Bottom" Click="LogoutButton_Click">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#FF202225"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#282B2E"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </DockPanel>
 
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="6*"/>
-                <RowDefinition Height="4*"/>
-                <RowDefinition Height="4*"/>
-                <RowDefinition Height="4*"/>
-                <RowDefinition Height="2*"/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Grid.Row="0" Text="Welcome To CamcorderControl!" VerticalAlignment="Center" Foreground="Gainsboro" FontSize="24"/>
-
-            <TextBox x:Name="UsernameTextbox" Grid.Row="1" VerticalContentAlignment="Bottom" BorderBrush="#FF202225" BorderThickness="2" Width="250" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,0,0"/>
-            <TextBlock Grid.Row="1" IsHitTestVisible="False" Text="Username" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="DarkGray" Margin="44,4,0,0" Height="20">
-                <TextBlock.Style>
-                    <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Text, ElementName=UsernameTextbox}" Value="">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-
-            <Button x:Name="LoginButton" Content="Login" Grid.Row="2" Height="27" Width="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Gainsboro" Margin="44,0,0,10" Click="LoginButton_Click">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#FF36393F"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border Background="{TemplateBinding Background}" BorderBrush="LightSlateGray" CornerRadius="8" BorderThickness="3">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#2F3136"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button x:Name="SignupButton" Content="Sign Up" Grid.Row="3" Height="27" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="Gainsboro" Margin="44,10,0,0" Click="SignupButton_Click">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="#FF36393F"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border Background="{TemplateBinding Background}" BorderBrush="LightSlateGray" CornerRadius="8" BorderThickness="3">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#2F3136"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-        </Grid>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
