@@ -72,16 +72,6 @@ namespace GUI
             {
                 MessageBox.Show($"User doesn't exists", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            //if(!SQLiteDataAccess.DoesUserExist(UsernameTextbox.Text))
-            //{
-            //    MessageBox.Show($"User {UsernameTextbox.Text} doesn't exists", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
-            //else
-            //{
-            //    MessageBox.Show("User Logged in", "Good job", MessageBoxButton.OK, MessageBoxImage.Information);
-            //    //connectedUser;
-            //}
         }
 
         private void SignupButton_Click(object sender, RoutedEventArgs e)
