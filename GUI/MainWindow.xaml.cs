@@ -26,16 +26,16 @@ namespace GUI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class SigningWindow : Window
+    public partial class MainWindow : Window
     {
         private User connectedUser;
 
-        public SigningWindow()
+        public MainWindow()
         {
             InitializeComponent();            
         }
 
-        private void SigningWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if(e.ChangedButton == MouseButton.Left)
             {
