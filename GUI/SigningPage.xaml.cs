@@ -34,6 +34,7 @@ namespace GUI
             MasterWindow = window;
 
             MasterWindow.LogoutButton.Visibility = Visibility.Hidden;
+            MasterWindow.Menu.Visibility = Visibility.Hidden;
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)

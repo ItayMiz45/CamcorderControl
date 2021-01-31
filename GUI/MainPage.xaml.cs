@@ -31,6 +31,7 @@ namespace GUI
             connectedUser = user;
 
             MasterWindow.LogoutButton.Visibility = Visibility.Visible;
+            MasterWindow.Menu.Visibility = Visibility.Visible;
             LoggedTextBlock.Text += connectedUser.Username;
         }
     }

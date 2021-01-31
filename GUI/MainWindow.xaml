@@ -106,6 +106,14 @@
                     </Style>
                 </Button.Style>
             </Button>
+
+            <Menu x:Name="Menu" Background="Transparent" Foreground="#FFB9BBBE" Visibility="Hidden">
+                <MenuItem Header="_Menu">
+                    <MenuItem x:Name="SettingsMenuItem" Header="_Settings" Background="Gainsboro" Foreground="Black" Click="SettingsMenuItem_Click"/>
+                    <Separator/>
+                    <MenuItem x:Name="LogoutMenuItem" Header="_Logout" Background="Gainsboro" Foreground="Black" Click="LogoutMenuItem_Click"/>
+                </MenuItem>
+            </Menu>
         </DockPanel>
 
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>

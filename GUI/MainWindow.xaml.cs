@@ -69,5 +69,15 @@ namespace GUI
                 MainFrame.Content = new SigningPage(this);
             }
         }
+
+        private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("This is settings", "Settings", MessageBoxButton.OK);
+        }
+
+        private void LogoutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            LogoutButton_Click(sender, e);
+        }
     }
 }

@@ -9,7 +9,7 @@
       Height="450" Width="600"
       Title="SigningPage">
 
-    <Grid Background="#FF36393F">
+    <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="6*"/>
