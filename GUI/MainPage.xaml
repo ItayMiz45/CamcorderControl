@@ -9,6 +9,18 @@
       Title="MainPage">
 
     <Grid>
-        <TextBlock x:Name="LoggedTextBlock" Text="Logged In: " VerticalAlignment="Top" Foreground="Gainsboro" FontSize="24"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock x:Name="LoggedTextBlock" Grid.Row="0" Text="Logged In: " VerticalAlignment="Top" Foreground="Gainsboro" FontSize="24"/>
+
+        <Image x:Name="FrameImage" Grid.Row="1" Width="640" Height="480" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image.Source>
+                <BitmapImage UriSource=".\no_image_available.jpeg"/>
+            </Image.Source>
+        </Image>
+
     </Grid>
 </Page>

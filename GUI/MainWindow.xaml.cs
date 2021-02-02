@@ -20,6 +20,7 @@ using System.Data.Sql;
 using System.Data.SQLite;
 
 using static GUI.SQLiteDataAccess.SQLiteErrorCodes;
+using System.Threading;
 
 namespace GUI
 {
@@ -28,6 +29,8 @@ namespace GUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        public Thread serverThread { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -45,6 +48,11 @@ namespace GUI
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
+            if (MainFrame.Content is MainPage) // main page has a thread to get frames, so close it when we leave it
+            {
+                ((MainPage)MainFrame.Content).serverThread.Abort();
+            }
+
             Application.Current.Shutdown();
         }
 
@@ -64,6 +72,11 @@ namespace GUI
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
+            if(MainFrame.Content is MainPage) // main page has a thread to get frames, so close it when we leave it
+            {
+                ((MainPage)MainFrame.Content).serverThread.Abort();
+            }
+
             if(!(MainFrame.Content is SigningPage)) // if logout is pressed and we are not in signing page, go to singing page
             {
                 MainFrame.Content = new SigningPage(this);
