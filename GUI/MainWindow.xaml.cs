@@ -51,8 +51,9 @@ namespace GUI
         {
             if (MainFrame.Content is MainPage) // main page has a thread to get frames, so close it when we leave it
             {
-                ((MainPage)MainFrame.Content).serverThread.Abort();
+                CloseThreadWhenCantConnectToPipe(((MainPage)MainFrame.Content).serverThread);
             }
+
 
             Application.Current.Shutdown();
         }
@@ -75,18 +76,8 @@ namespace GUI
         {
             if(MainFrame.Content is MainPage) // main page has a thread to get frames, so close it when we leave it
             {
-                // if a client did not connect to the pipe, the easiest way to close the server is to create a fake connection
-                using (NamedPipeClientStream npcs = new NamedPipeClientStream("CamcorderPipe"))
-                {
-                    try
-                    {
-                        npcs.Connect(100);
-                        Thread.Sleep(50);
-                    }
-                    catch { } // client already connected, can't create a fake connection
-                }
 
-                ((MainPage)MainFrame.Content).serverThread.Abort(); // throw a ThreadAbortException in the thread to let it know it's time to die
+                CloseThreadWhenCantConnectToPipe(((MainPage)MainFrame.Content).serverThread);
             }
 
             if (!(MainFrame.Content is SigningPage)) // if logout is pressed and we are not in signing page, go to singing page
@@ -105,13 +96,33 @@ namespace GUI
              * logout button do logout
              */
 
-            MessageBox.Show("This is settings", "Settings", MessageBoxButton.OK);
+            //MessageBox.Show("This is settings", "Settings", MessageBoxButton.OK);
+            if (MainFrame.Content is MainPage)
+            {
+                CloseThreadWhenCantConnectToPipe(((MainPage)MainFrame.Content).serverThread);
+            }
             MainFrame.Content = new SettingsPage();
         }
 
         private void LogoutMenuItem_Click(object sender, RoutedEventArgs e)
         {
             LogoutButton_Click(sender, e);
+        }
+
+        private void CloseThreadWhenCantConnectToPipe(Thread serverThread)
+        {
+            // if a client did not connect to the pipe, the easiest way to close the server is to create a fake connection
+            using (NamedPipeClientStream npcs = new NamedPipeClientStream("CamcorderPipe"))
+            {
+                try
+                {
+                    npcs.Connect(100);
+                    Thread.Sleep(50);
+                }
+                catch { } // client already connected, can't create a fake connection
+            }
+
+            serverThread.Abort(); // throw a ThreadAbortException in the thread to let it know it's time to die
         }
     }
 }
