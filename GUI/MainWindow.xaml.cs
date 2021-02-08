@@ -21,6 +21,7 @@ using System.Data.SQLite;
 
 using static GUI.SQLiteDataAccess.SQLiteErrorCodes;
 using System.Threading;
+using System.IO.Pipes;
 
 namespace GUI
 {
@@ -74,7 +75,18 @@ namespace GUI
         {
             if(MainFrame.Content is MainPage) // main page has a thread to get frames, so close it when we leave it
             {
-                ((MainPage)MainFrame.Content).serverThread.Abort();
+                // if a client did not connect to the pipe, the easiest way to close the server is to create a fake connection
+                using (NamedPipeClientStream npcs = new NamedPipeClientStream("CamcorderPipe"))
+                {
+                    try
+                    {
+                        npcs.Connect(100);
+                        Thread.Sleep(50);
+                    }
+                    catch { } // client already connected, can't create a fake connection
+                }
+
+                ((MainPage)MainFrame.Content).serverThread.Abort(); // throw a ThreadAbortException in the thread to let it know it's time to die
             }
 
             if (!(MainFrame.Content is SigningPage)) // if logout is pressed and we are not in signing page, go to singing page

@@ -42,14 +42,7 @@ namespace GUI
             FrameImage.Source = GetBitmapImageFromBytes(byteData);
 
             serverThread = new Thread(new ThreadStart(StartImagePipe));
-            try
-            {
-                serverThread.Start();
-            }
-            catch(Exception)
-            {
-                Console.WriteLine();
-            }
+            serverThread.Start();
         }
 
 
@@ -65,18 +58,30 @@ namespace GUI
             var br = new BinaryReader(server);
             var bw = new BinaryWriter(server);
 
+            Exception closedException = null;
+
             while (true)
             {
                 try
                 {
-                    int len = (int)br.ReadUInt32();            // Read string length
-
-                    //string str = new string(br.ReadChars(len));    // Read string
+                    int len = (int)br.ReadUInt32(); // Read string length
 
                     Dispatcher.Invoke(() =>
                     {
-                        FrameImage.Source = GetBitmapImageFromBytes(br.ReadBytes(len)); // Read image bytes
+                        try
+                        {
+                            FrameImage.Source = GetBitmapImageFromBytes(br.ReadBytes(len)); // Read image bytes
+                        }
+                        catch (Exception e) // when closing connection ReadByte will throw an exception, so we need to re-throw it after invoke
+                        {
+                            closedException = e;
+                        }
                     });
+
+                    if(closedException != null)
+                    {
+                        throw closedException;
+                    }
 
                     var buf = Encoding.ASCII.GetBytes("roger!");     // Get ASCII byte array   
                     bw.Write((uint)buf.Length);                // Write string length
@@ -89,8 +94,10 @@ namespace GUI
                     br.Close();
                     bw.Close();
 
-                    server.Close();
                     server.Dispose();
+                    server.Close();
+                    server = null;
+                    break;
                 }
             }
 
