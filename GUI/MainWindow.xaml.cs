@@ -77,7 +77,7 @@ namespace GUI
                 ((MainPage)MainFrame.Content).serverThread.Abort();
             }
 
-            if(!(MainFrame.Content is SigningPage)) // if logout is pressed and we are not in signing page, go to singing page
+            if (!(MainFrame.Content is SigningPage)) // if logout is pressed and we are not in signing page, go to singing page
             {
                 MainFrame.Content = new SigningPage(this);
             }
@@ -85,7 +85,16 @@ namespace GUI
 
         private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            /*
+             * Rename logout button to back button
+             * store last page, when press back go to it
+             * or know from settings -> main -> signing
+             * 
+             * logout button do logout
+             */
+
             MessageBox.Show("This is settings", "Settings", MessageBoxButton.OK);
+            MainFrame.Content = new SettingsPage();
         }
 
         private void LogoutMenuItem_Click(object sender, RoutedEventArgs e)
