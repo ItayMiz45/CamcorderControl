@@ -31,6 +31,7 @@ namespace GUI
     public partial class MainWindow : Window
     {
         public Thread serverThread { get; set; }
+        public User connectedUser;
 
         public MainWindow()
         {
@@ -72,11 +73,34 @@ namespace GUI
             Application.Current.MainWindow.WindowState = WindowState.Minimized;
         }
 
-        private void LogoutButton_Click(object sender, RoutedEventArgs e)
-        {
-            if(MainFrame.Content is MainPage) // main page has a thread to get frames, so close it when we leave it
+        private void GoBackButton_Click(object sender, RoutedEventArgs e)
+        {            
+            if (MainFrame.Content is MainPage) // main page has a thread to get frames, so close it when we leave it
             {
+                connectedUser = null;
+                CloseThreadWhenCantConnectToPipe(((MainPage)MainFrame.Content).serverThread);
+                MainFrame.Content = new SigningPage(this);
+            }
 
+            else if (MainFrame.Content is SettingsPage) // if logout is pressed and we are not in signing page, go to singing page
+            {
+                MainFrame.Content = new MainPage(this);
+            }
+        }
+
+        private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainFrame.Content is MainPage)
+            {
+                CloseThreadWhenCantConnectToPipe(((MainPage)MainFrame.Content).serverThread);
+            }
+            MainFrame.Content = new SettingsPage(this);
+        }
+
+        private void LogoutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if(MainFrame.Content is MainPage)
+            {
                 CloseThreadWhenCantConnectToPipe(((MainPage)MainFrame.Content).serverThread);
             }
 
@@ -84,29 +108,6 @@ namespace GUI
             {
                 MainFrame.Content = new SigningPage(this);
             }
-        }
-
-        private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            /*
-             * Rename logout button to back button
-             * store last page, when press back go to it
-             * or know from settings -> main -> signing
-             * 
-             * logout button do logout
-             */
-
-            //MessageBox.Show("This is settings", "Settings", MessageBoxButton.OK);
-            if (MainFrame.Content is MainPage)
-            {
-                CloseThreadWhenCantConnectToPipe(((MainPage)MainFrame.Content).serverThread);
-            }
-            MainFrame.Content = new SettingsPage();
-        }
-
-        private void LogoutMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            LogoutButton_Click(sender, e);
         }
 
         private void CloseThreadWhenCantConnectToPipe(Thread serverThread)
@@ -124,5 +125,7 @@ namespace GUI
 
             serverThread.Abort(); // throw a ThreadAbortException in the thread to let it know it's time to die
         }
+
+        
     }
 }

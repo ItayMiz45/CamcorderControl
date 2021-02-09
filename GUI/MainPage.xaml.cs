@@ -24,19 +24,17 @@ namespace GUI
     public partial class MainPage : Page
     {
         private MainWindow MasterWindow;
-        private User connectedUser;
         public Thread serverThread { get; set; }
 
-        public MainPage(MainWindow window, User user)
+        public MainPage(MainWindow window)
         {
             InitializeComponent();
 
             MasterWindow = window;
-            connectedUser = user;
 
-            MasterWindow.LogoutButton.Visibility = Visibility.Visible;
+            MasterWindow.GoBackButton.Visibility = Visibility.Visible;
             MasterWindow.Menu.Visibility = Visibility.Visible;
-            LoggedTextBlock.Text += connectedUser.Username;
+            LoggedTextBlock.Text += MasterWindow.connectedUser.Username;
 
             byte[] byteData = File.ReadAllBytes(@".\no_image_available.jpeg");
             FrameImage.Source = GetBitmapImageFromBytes(byteData);

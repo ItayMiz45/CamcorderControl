@@ -33,7 +33,7 @@ namespace GUI
             InitializeComponent();
             MasterWindow = window;
 
-            MasterWindow.LogoutButton.Visibility = Visibility.Hidden;
+            MasterWindow.GoBackButton.Visibility = Visibility.Hidden;
             MasterWindow.Menu.Visibility = Visibility.Hidden;
         }
 
@@ -41,8 +41,8 @@ namespace GUI
         {
             try
             {
-                User user = SQLiteDataAccess.GetUser(UsernameTextbox.Text);
-                MasterWindow.MainFrame.Content = new MainPage(MasterWindow, user);
+                MasterWindow.connectedUser = SQLiteDataAccess.GetUser(UsernameTextbox.Text);
+                MasterWindow.MainFrame.Content = new MainPage(MasterWindow);
                 
             }
             catch (InvalidOperationException) // user doesn't exist
@@ -55,10 +55,9 @@ namespace GUI
         {
             try
             {
-                User user = new User(UsernameTextbox.Text);
-                SQLiteDataAccess.AddUser(user);
-                //MessageBox.Show("User added successfully", "Good job", MessageBoxButton.OK, MessageBoxImage.Information);
-                MasterWindow.MainFrame.Content = new MainPage(MasterWindow, user);
+                MasterWindow.connectedUser = new User(UsernameTextbox.Text);
+                SQLiteDataAccess.AddUser(MasterWindow.connectedUser);
+                MasterWindow.MainFrame.Content = new MainPage(MasterWindow);
             }
             catch (SQLiteException err)
             {

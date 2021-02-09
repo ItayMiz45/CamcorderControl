@@ -26,6 +26,58 @@ namespace GUI
             }
         }
 
+        public static List<Gesture> GetGestures()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
+            {
+                var output = cnn.Query<Gesture>("SELECT * FROM Gestures;", new DynamicParameters());
+                return output.ToList();
+            }
+        }
+
+        public static List<Action> GetActions()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
+            {
+                var output = cnn.Query<Action>("SELECT * FROM Actions;", new DynamicParameters());
+                return output.ToList();
+            }
+        }
+
+        public static Action GetAction(Int64 actionId)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("ActionId", actionId);
+                var output = cnn.Query<Action>("SELECT * FROM Actions WHERE ActionId=@ActionId;", parameters);
+                return output.First();
+            }
+        }
+
+        public static Connector GetConnector(Int64 connectorId)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("ConnectorId", connectorId);
+                var output = cnn.Query<Connector>("SELECT * FROM Connectors WHERE ConnectorId=@ConnectorId;", parameters);
+                return output.First();
+            }
+        }
+
+        public static Connector GetConnectorByUserId(Int64 userId)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("UserId", userId);
+                var output = cnn.Query<Connector>("SELECT * FROM Connectors WHERE UserId=@UserId;", parameters);
+                return output.First();
+            }
+        }
+
+
         public static bool DoesUserExist(String Username)
         {
             using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))

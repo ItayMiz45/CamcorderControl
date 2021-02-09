@@ -85,7 +85,7 @@
                 </Button.Style>
             </Button>
 
-            <Button x:Name="LogoutButton" IsCancel="True" Visibility="Hidden" DockPanel.Dock="Left" Content="&#x003C;&#x1806;&#x1806;" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" Width="25" Height="25" BorderBrush="{x:Null}" Foreground="#FFB9BBBE" FontFamily="Eras ITC" VerticalAlignment="Bottom" Click="LogoutButton_Click">
+            <Button x:Name="GoBackButton" IsCancel="True" Visibility="Hidden" DockPanel.Dock="Left" Content="&#x003C;&#x1806;&#x1806;" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" Width="25" Height="25" BorderBrush="{x:Null}" Foreground="#FFB9BBBE" FontFamily="Eras ITC" VerticalAlignment="Bottom" Click="GoBackButton_Click">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="#FF202225"/>
