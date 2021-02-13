@@ -57,6 +57,7 @@ namespace GUI
             {
                 MasterWindow.connectedUser = new User(UsernameTextbox.Text);
                 SQLiteDataAccess.AddUser(MasterWindow.connectedUser);
+                MasterWindow.connectedUser.UserId = SQLiteDataAccess.GetUserId(MasterWindow.connectedUser.Username);
                 MasterWindow.MainFrame.Content = new MainPage(MasterWindow);
             }
             catch (SQLiteException err)
