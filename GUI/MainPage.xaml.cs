@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
+using System.ComponentModel;
 
 namespace GUI
 {
@@ -41,6 +43,39 @@ namespace GUI
 
             serverThread = new Thread(new ThreadStart(StartImagePipe));
             serverThread.Start();
+            runClient();
+
+        }
+
+        private const string pythonScriptPath = "pyScript.py";
+        private const int PATH_UNUSED_DIRECTION = 23; //  'bin\Debug\netcoreapp3.1' len, need only the direction before this part (full path: 'G:\C#\runPySctript\cSharp\bin\Debug\netcoreapp3.1')
+        private static void run_cmd(string cmd, string args)
+        {
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.FileName = cmd;//cmd is full path to python.exe
+            start.Arguments = args;//args is path to .py file and any cmd line args
+            start.UseShellExecute = false;
+            start.RedirectStandardOutput = true;
+            using (Process process = Process.Start(start))
+            {
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    string result = reader.ReadToEnd();
+                    Console.Write(result);
+                }
+            }
+        }
+
+        private static void runClient()
+        {
+            string directory = Directory.GetCurrentDirectory();
+            string target = "";
+            
+            for (int i = 0; i < directory.Length - 23; i++) //substruct the unimportant part of the path
+            {
+                target += directory[i];
+            }
+            run_cmd("Python", target + pythonScriptPath);
         }
 
 
