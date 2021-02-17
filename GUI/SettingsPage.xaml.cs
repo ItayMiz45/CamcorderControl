@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,6 +88,36 @@ namespace GUI
 
                 SettingsGrid.Children.Add(dockPanel);
             }
+        }
+
+        private void ChangeUsernameButton_Click(object sender, RoutedEventArgs e)
+        {
+            string newUsername = ChangeUsernameTextbox.Text;
+            Int64 userID = MasterWindow.connectedUser.UserId;
+            try
+            {
+                SQLiteDataAccess.ChangeUserName(userID, newUsername);
+                MasterWindow.connectedUser.Username = newUsername;
+            }
+            catch (SQLiteException err)
+            {
+                switch ((SQLiteDataAccess.SQLiteErrorCodes)err.ErrorCode)
+                {
+                    case SQLiteDataAccess.SQLiteErrorCodes.UniqueError:
+                        MessageBox.Show($"User {newUsername} already exists", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    default:
+                        MessageBox.Show($"Unknown SQL error", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                }
+            }
+        }
+
+        private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            Int64 userID = MasterWindow.connectedUser.UserId;
+            SQLiteDataAccess.DeleteUser(userID);
+            MasterWindow.LogoutMenuItem_Click(sender, e);
         }
     }
 }

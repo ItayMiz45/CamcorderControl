@@ -97,7 +97,7 @@ namespace GUI
             MainFrame.Content = new SettingsPage(this);
         }
 
-        private void LogoutMenuItem_Click(object sender, RoutedEventArgs e)
+        public void LogoutMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if(MainFrame.Content is MainPage)
             {

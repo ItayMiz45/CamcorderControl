@@ -207,5 +207,23 @@ namespace GUI
 
         }
         
+
+        public static void ChangeUserName(Int64 userID, string newUserName)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
+            {
+                string updating = $"UPDATE Users SET Username = '{newUserName}' WHERE UserId = {userID};";
+                cnn.Execute(updating);
+            }
+        }
+
+        public static void DeleteUser(Int64 userID)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
+            {
+                string deleting = $"DELETE FROM Users WHERE UserId = {userID};";
+                cnn.Execute(deleting);
+            }
+        }
     }
 }

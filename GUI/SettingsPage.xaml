@@ -37,7 +37,7 @@
                     </TextBlock.Style>
                 </TextBlock>
 
-                <Button x:Name="ChangeUsernameButton" Content="Save" Grid.Row="2" Height="27" Width="74" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Gainsboro" Margin="40,5,0,10">
+                <Button x:Name="ChangeUsernameButton" Content="Save" Grid.Row="2" Height="27" Width="74" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Gainsboro" Margin="40,5,0,10" Click="ChangeUsernameButton_Click">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#FF36393F"/>
@@ -59,7 +59,7 @@
                     </Button.Style>
                 </Button>
 
-                <Button x:Name="DeleteUserButton" Content="Delete Account" Grid.Row="3" Height="27" Width="110" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="#FEF1F1" Margin="40,10,0,10">
+                <Button x:Name="DeleteUserButton" Content="Delete Account" Grid.Row="3" Height="27" Width="110" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="#FEF1F1" Margin="40,10,0,10" Click="DeleteUserButton_Click">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#F04747"/>
