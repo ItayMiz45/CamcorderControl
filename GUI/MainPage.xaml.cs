@@ -47,35 +47,32 @@ namespace GUI
 
         }
 
-        private const string pythonScriptPath = "pyScript.py";
+        private const string interpreterPath = @"D:\Itay\Python\CamcorderControl\venv\Scripts\python.exe";
+        //private const string interpreterPath = @"python";
+        private const string pythonScriptPath = @"D:\Itay\BigBigProject\GUI\GUI\ModelFiles\UseModel.py";
+        //private const string pythonScriptPath = @"D:\Itay\Python\CamcorderControl\Test\test1.py";
         private const int PATH_UNUSED_DIRECTION = 23; //  'bin\Debug\netcoreapp3.1' len, need only the direction before this part (full path: 'G:\C#\runPySctript\cSharp\bin\Debug\netcoreapp3.1')
-        private static void run_cmd(string cmd, string args)
+        private static void run_cmd(string cmd, string args="")
         {
             ProcessStartInfo start = new ProcessStartInfo();
             start.FileName = cmd;//cmd is full path to python.exe
             start.Arguments = args;//args is path to .py file and any cmd line args
-            start.UseShellExecute = false;
-            start.RedirectStandardOutput = true;
-            using (Process process = Process.Start(start))
-            {
-                using (StreamReader reader = process.StandardOutput)
-                {
-                    string result = reader.ReadToEnd();
-                    Console.Write(result);
-                }
-            }
+            Process process = Process.Start(start);
         }
 
         private static void runClient()
         {
+            
             string directory = Directory.GetCurrentDirectory();
             string target = "";
-            
-            for (int i = 0; i < directory.Length - 23; i++) //substruct the unimportant part of the path
-            {
-                target += directory[i];
-            }
-            run_cmd("Python", target + pythonScriptPath);
+
+            //for (int i = 0; i < directory.Length - PATH_UNUSED_DIRECTION; i++) //substruct the unimportant part of the path
+            //{
+            //    target += directory[i];
+            //}
+            //MessageBox.Show($"{interpreterPath} {target + pythonScriptPath}");
+            //run_cmd(interpreterPath, target + pythonScriptPath);
+            run_cmd(@"D:\Itay\BigBigProject\GUI\GUI\ModelFiles\StartClient.bat");
         }
 
 
