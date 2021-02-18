@@ -55,8 +55,8 @@ def main():
         last = -1
 
         for i, (org, proc) in enumerate(hs):
-            cv2.imshow("original", org)
-            cv2.imshow("processed", proc)
+            #cv2.imshow("original", org)
+            #cv2.imshow("processed", proc)
 
             if not IS_MASKED:
                 proc = cv2.cvtColor(proc, cv2.COLOR_GRAY2BGR)
