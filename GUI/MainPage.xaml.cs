@@ -57,7 +57,11 @@ namespace GUI
             ProcessStartInfo start = new ProcessStartInfo();
             start.FileName = cmd;//cmd is full path to python.exe
             start.Arguments = args;//args is path to .py file and any cmd line args
-            Process process = Process.Start(start);
+            try
+            {
+                Process process = Process.Start(start);
+            }
+            catch { }
         }
 
         private static void runClient()

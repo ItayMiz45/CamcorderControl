@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,7 @@ namespace GUI
     public partial class SettingsPage : Page
     {
         private MainWindow MasterWindow;
-
+        private ComboBox comboBox;
         public SettingsPage(MainWindow window)
         {
             InitializeComponent();
@@ -40,7 +41,7 @@ namespace GUI
 
             var allCommands = new ObservableCollection<string>(allActions.Select(o => o.Command));
 
-            ComboBox comboBox;
+            
             DockPanel dockPanel;
             TextBlock gestTxtBlock;
             Gesture gesture;
@@ -118,6 +119,25 @@ namespace GUI
             Int64 userID = MasterWindow.connectedUser.UserId;
             SQLiteDataAccess.DeleteUser(userID);
             MasterWindow.LogoutMenuItem_Click(sender, e);
+        }
+
+        private void ChangeConnectors_Click(object sender, RoutedEventArgs e)
+        {
+            //string actionsArray = "";
+            //string gesturesArray = "";
+
+            //for (int i = 0; i < comboBox.Items.Count; i++)
+            //{
+            //    actionsArray += SQLiteDataAccess.getActionID(comboBox.Items[i].Content.ToString).ToString();
+            //    gesturesArray += i.ToString();
+            //    i++;
+            //    if (i < comboBox.Items.Count - 1)
+            //    {
+            //        actionsArray += ",";
+            //        gesturesArray += ",";
+            //    }
+            //}
+            //SQLiteDataAccess.ChangeConnectors(MasterWindow.connectedUser.UserId, gesturesArray, actionsArray);
         }
     }
 }

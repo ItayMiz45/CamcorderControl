@@ -44,6 +44,15 @@ namespace GUI
             }
         }
 
+        public static Int64 getActionID(string actionName)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
+            {
+                Int64 output = cnn.Execute($"SELECT actionID FROM Actions WHERE Command = {actionName};");
+                return output;
+            }
+        }
+
         public static Action GetAction(Int64 actionId)
         {
             using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
@@ -120,6 +129,11 @@ namespace GUI
                 var output = cnn.Query<User>("SELECT * FROM Users WHERE UserId=@UserId;", parameters);
                 return output.ToList()[0];
             }
+        }
+
+        internal static object getActionID(object p)
+        {
+            throw new NotImplementedException();
         }
 
         public static Int64 GetUserId(string username)
@@ -202,9 +216,13 @@ namespace GUI
             }
         }
 
-        public static void ChangeConnectors(Int64 gestureID, Int64 actionID)
+        public static void ChangeConnectors(Int64 userID, string gesturesArray, string actionsArray)
         {
-
+            using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
+            {
+                string updating = $"UPDATE connectors SET GesturesArray = {gesturesArray}, ActionsArray = {actionsArray} WHERE UserId = {userID};";
+                cnn.Execute(updating);
+            }
         }
         
 
