@@ -42,8 +42,7 @@ namespace GUI
 
             var allCommands = new ObservableCollection<string>(allActions.Select(o => o.Command));
 
-            ComboBox comboBox;
-
+            
             DockPanel dockPanel;
             TextBlock gestTxtBlock;
             Gesture gesture;
