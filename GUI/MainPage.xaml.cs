@@ -52,31 +52,23 @@ namespace GUI
         private const string pythonScriptPath = @"D:\Itay\BigBigProject\GUI\GUI\ModelFiles\UseModel.py";
         //private const string pythonScriptPath = @"D:\Itay\Python\CamcorderControl\Test\test1.py";
         private const int PATH_UNUSED_DIRECTION = 23; //  'bin\Debug\netcoreapp3.1' len, need only the direction before this part (full path: 'G:\C#\runPySctript\cSharp\bin\Debug\netcoreapp3.1')
-        private static void run_cmd(string cmd, string args="")
+
+        private static void run_command(string cmd, bool hidden=false)
         {
-            ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = cmd;//cmd is full path to python.exe
-            start.Arguments = args;//args is path to .py file and any cmd line args
-            try
-            {
-                Process process = Process.Start(start);
-            }
-            catch { }
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            if(hidden)
+                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C " + cmd;
+            process.StartInfo = startInfo;
+            process.Start();
         }
 
         private static void runClient()
         {
-            
-            string directory = Directory.GetCurrentDirectory();
-            string target = "";
-
-            //for (int i = 0; i < directory.Length - PATH_UNUSED_DIRECTION; i++) //substruct the unimportant part of the path
-            //{
-            //    target += directory[i];
-            //}
-            //MessageBox.Show($"{interpreterPath} {target + pythonScriptPath}");
-            //run_cmd(interpreterPath, target + pythonScriptPath);
-            run_cmd(@"D:\Itay\BigBigProject\GUI\GUI\ModelFiles\StartClient.bat");
+            run_command(@"..\..\ModelFiles\StartClient.bat", true);
         }
 
 
@@ -117,9 +109,32 @@ namespace GUI
                         throw closedException;
                     }
 
-                    var buf = Encoding.ASCII.GetBytes("roger!");     // Get ASCII byte array   
-                    bw.Write((uint)buf.Length);                // Write string length
-                    bw.Write(buf);                              // Write string
+                    uint isExec = br.ReadUInt32();
+                    uint gest = br.ReadUInt32();
+                    uint side = br.ReadUInt32();
+
+
+                    if (isExec != 1)
+                        continue;
+
+
+
+                    Int64 gestId = SQLiteDataAccess.getGestureID($"{gest}", ((int)side) - 1);
+
+                    Connector cnn = SQLiteDataAccess.GetConnectorByUserId(MasterWindow.connectedUser.UserId);
+
+                    int idx = cnn.GesturesArray.IndexOf((int)gestId);
+                    if (idx == -1)  // not found in list
+                        continue;
+
+                    int actionId = cnn.ActionsArray[idx];
+
+                    Action action = SQLiteDataAccess.GetAction(actionId);
+
+                    new Thread(() =>
+                    {
+                        run_command(action.Command);
+                    }).Start();
                 }
                 catch (Exception)
                 {

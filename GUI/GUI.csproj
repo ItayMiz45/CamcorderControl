@@ -123,9 +123,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ModelFiles\custom_model_gest_BACK.pth" />
-    <None Include="ModelFiles\sidesBACK.pth" />
-    <None Include="ModelFiles\StartClient.bat" />
+    <None Include="ModelFiles\gest.pth" />
+    <None Include="ModelFiles\sides.pth" />
+    <None Include="ModelFiles\StartClient.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -144,10 +146,21 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ModelFiles\CNN_Gest.py" />
-    <Content Include="ModelFiles\CNN_Side.py" />
-    <Content Include="ModelFiles\HandSegmenter.py" />
-    <Content Include="ModelFiles\UseModel.py" />
+    <None Include="ModelFiles\CNN_Gest.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ModelFiles\CNN_Side.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ModelFiles\HandSegmenter.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ModelFiles\UseModel.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ModelFiles\UseTwoModels.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />

@@ -24,7 +24,8 @@ namespace GUI
     public partial class SettingsPage : Page
     {
         private MainWindow MasterWindow;
-        private ComboBox comboBox;
+
+        private List<ComboBox> comboBoxes = new List<ComboBox>();
         public SettingsPage(MainWindow window)
         {
             InitializeComponent();
@@ -41,7 +42,8 @@ namespace GUI
 
             var allCommands = new ObservableCollection<string>(allActions.Select(o => o.Command));
 
-            
+            ComboBox comboBox;
+
             DockPanel dockPanel;
             TextBlock gestTxtBlock;
             Gesture gesture;
@@ -56,7 +58,7 @@ namespace GUI
                 if (indexInActionArray >= 0)
                 {
                     int actionId = userConnector.ActionsArray[indexInActionArray];
-                    
+
                     for (index = 0; index < allActions.Count; index++)
                     {
                         if (allActions[index].ActionId == actionId)
@@ -65,7 +67,7 @@ namespace GUI
                         }
                     }
                 }
-                
+
 
                 gestTxtBlock = new TextBlock();
                 gestTxtBlock.Text = gesture.ToString();
@@ -80,6 +82,8 @@ namespace GUI
                 comboBox.VerticalAlignment = VerticalAlignment.Top;
                 comboBox.Margin = new Thickness(0, 5, 0, 0);
                 comboBox.ItemsSource = allCommands;
+
+                comboBoxes.Add(comboBox);
 
                 dockPanel = new DockPanel();
                 dockPanel.Margin = new Thickness(40, 30 * i, 0, 0);
@@ -123,21 +127,30 @@ namespace GUI
 
         private void ChangeConnectors_Click(object sender, RoutedEventArgs e)
         {
-            //string actionsArray = "";
-            //string gesturesArray = "";
+            string actionsArray = "";
+            string gesturesArray = "";
+            string newActionsArray = "";
+            string newGesturesArray = "";
+            int i = 0;
 
-            //for (int i = 0; i < comboBox.Items.Count; i++)
-            //{
-            //    actionsArray += SQLiteDataAccess.getActionID(comboBox.Items[i].Content.ToString).ToString();
-            //    gesturesArray += i.ToString();
-            //    i++;
-            //    if (i < comboBox.Items.Count - 1)
-            //    {
-            //        actionsArray += ",";
-            //        gesturesArray += ",";
-            //    }
-            //}
-            //SQLiteDataAccess.ChangeConnectors(MasterWindow.connectedUser.UserId, gesturesArray, actionsArray);
+            foreach (ComboBox comboBox in comboBoxes)
+            {
+                i++;
+                actionsArray += SQLiteDataAccess.getActionID(comboBox.SelectedItem.ToString()).ToString() + ',';
+                gesturesArray += i.ToString() + ',';
+
+            }
+            for (int j = 0; j < actionsArray.Length - 1; j++)
+            {
+                newActionsArray += actionsArray[j];
+            }
+            for (int j = 0; j < gesturesArray.Length - 1; j++)
+            {
+                newGesturesArray += gesturesArray[j];
+            }
+
+            SQLiteDataAccess.ChangeConnectors(MasterWindow.connectedUser.UserId, newGesturesArray, newActionsArray);
+
         }
     }
 }

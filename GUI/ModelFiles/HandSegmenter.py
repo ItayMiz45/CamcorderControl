@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, Union
 
 import cv2
 import numpy as np
@@ -6,17 +6,18 @@ import numpy as np
 
 class HandSegmenter:
 
-    def __init__(self, dilate_iter=6, mask_hand=False):
+    def __init__(self, dilate_iter=6, mask_hand=False, both=False):
         self._cap = cv2.VideoCapture(0)
         self._fgbg2 = cv2.createBackgroundSubtractorMOG2()
         self._shape = 200, 200
         self._dilate_iter = dilate_iter
         self._mask_hand = mask_hand
+        self._both = both  # masked and unmasked
 
     def __iter__(self):
         return self
 
-    def __next__(self) -> Tuple[np.ndarray, np.ndarray]:
+    def __next__(self) -> Union[Tuple[np.ndarray, np.ndarray], Tuple[np.ndarray, np.ndarray, np.ndarray]]:
         while True:
             ret, frame = self._cap.read()
             frame = cv2.flip(frame, 1)
@@ -52,6 +53,10 @@ class HandSegmenter:
 
             cv2.line(filled, (0, im_shape[1]), (im_shape[0], im_shape[1]), (0, 0, 0), 25)
 
+            if self._both:
+                masked = cv2.bitwise_and(frame[100:300, 100:300], frame[100:300, 100:300], mask=filled)
+                return frame, filled, masked
+
             if self._mask_hand:
                 filled = cv2.bitwise_and(frame[100:300, 100:300], frame[100:300, 100:300], mask=filled)
 
@@ -68,3 +73,15 @@ class HandSegmenter:
         return int(self._cap.get(3)), int(self._cap.get(4))
 
 
+if __name__ == '__main__':
+    hs = HandSegmenter(both=True)
+
+    for frame, filled, masked in hs:
+        cv2.imshow("Frame", frame)
+        cv2.imshow("filled", filled)
+        cv2.imshow("masked", masked)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    cv2.destroyAllWindows()

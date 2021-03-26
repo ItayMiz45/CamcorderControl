@@ -6,7 +6,9 @@ using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GUI
 {
@@ -48,8 +50,30 @@ namespace GUI
         {
             using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
             {
-                Int64 output = cnn.Execute($"SELECT actionID FROM Actions WHERE Command = {actionName};");
-                return output;
+                var output = cnn.Query<Action>($"SELECT * FROM Actions WHERE Command = '{actionName}';");
+                return output.First().ActionId;
+            }
+        }
+
+        public static Int64 getGestureID(string gestureName, int handSide=-1)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
+            {
+                IEnumerable<Gesture> output;
+
+                if(handSide != -1)
+                {
+                    output = cnn.Query<Gesture>($"SELECT * FROM Gestures WHERE GestureName = '{gestureName}' AND HandSide = {handSide};");
+                }
+                else
+                {
+                    output = cnn.Query<Gesture>($"SELECT * FROM Gestures WHERE GestureName = '{gestureName}';");
+                }
+
+                if (output.Count() == 0)
+                    return -1;
+
+                return output.First().GestureId;
             }
         }
 
@@ -129,11 +153,6 @@ namespace GUI
                 var output = cnn.Query<User>("SELECT * FROM Users WHERE UserId=@UserId;", parameters);
                 return output.ToList()[0];
             }
-        }
-
-        internal static object getActionID(object p)
-        {
-            throw new NotImplementedException();
         }
 
         public static Int64 GetUserId(string username)
@@ -220,7 +239,7 @@ namespace GUI
         {
             using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
             {
-                string updating = $"UPDATE connectors SET GesturesArray = {gesturesArray}, ActionsArray = {actionsArray} WHERE UserId = {userID};";
+                string updating = $"UPDATE connectors SET GesturesArray = '{gesturesArray}', ActionsArray = '{actionsArray}' WHERE UserId = {userID};";
                 cnn.Execute(updating);
             }
         }
