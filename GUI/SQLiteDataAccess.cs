@@ -55,13 +55,13 @@ namespace GUI
             }
         }
 
-        public static Int64 getGestureID(string gestureName, int handSide=-1)
+        public static Int64 getGestureID(string gestureName, int handSide = -1)
         {
             using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
             {
                 IEnumerable<Gesture> output;
 
-                if(handSide != -1)
+                if (handSide != -1)
                 {
                     output = cnn.Query<Gesture>($"SELECT * FROM Gestures WHERE GestureName = '{gestureName}' AND HandSide = {handSide};");
                 }
@@ -175,7 +175,7 @@ namespace GUI
             }
         }
 
-        private static string GetConnectionString(string id="Default")
+        private static string GetConnectionString(string id = "Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
@@ -186,7 +186,7 @@ namespace GUI
             string[] gest_names = { "'1'", "'2'", "'3'", "'5'" };
             string[] hand_sides = { "0", "1" };
 
-            for(int i = 0; i < gest_names.Length; i++)
+            for (int i = 0; i < gest_names.Length; i++)
             {
                 insertations += $"({gest_names[i]}, {hand_sides[0]}), ";
                 insertations += $"({gest_names[i]}, {hand_sides[1]}), ";
@@ -201,12 +201,12 @@ namespace GUI
 
 
         }
-        
+
         private static List<Int64> GetAllGesturesIDs()
         {
             using (IDbConnection cnn = new SQLiteConnection(GetConnectionString()))
             {
-                var gesturesFromTable= cnn.Query<Int64>("SELECT Gestureid FROM Gestures;");
+                var gesturesFromTable = cnn.Query<Int64>("SELECT Gestureid FROM Gestures;");
                 List<Int64> listOfGestures = gesturesFromTable.ToList();
                 return listOfGestures;
             }
@@ -218,9 +218,9 @@ namespace GUI
             const string defaultActionID = "1";
             string gesturesIDsForTable = "";
             string actionsIDSForTable = "";
-            for(int i = 0; i < IDs.Count; i++) 
+            for (int i = 0; i < IDs.Count; i++)
             {
-                gesturesIDsForTable += IDs[i].ToString() ;
+                gesturesIDsForTable += IDs[i].ToString();
                 actionsIDSForTable += defaultActionID;
                 if (i < IDs.Count - 1) //if last item, dont add psikim
                 {
@@ -243,7 +243,7 @@ namespace GUI
                 cnn.Execute(updating);
             }
         }
-        
+
 
         public static void ChangeUserName(Int64 userID, string newUserName)
         {

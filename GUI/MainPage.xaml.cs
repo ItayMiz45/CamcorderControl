@@ -53,11 +53,11 @@ namespace GUI
         //private const string pythonScriptPath = @"D:\Itay\Python\CamcorderControl\Test\test1.py";
         private const int PATH_UNUSED_DIRECTION = 23; //  'bin\Debug\netcoreapp3.1' len, need only the direction before this part (full path: 'G:\C#\runPySctript\cSharp\bin\Debug\netcoreapp3.1')
 
-        private static void run_command(string cmd, bool hidden=false)
+        private static void run_command(string cmd, bool hidden = false)
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-            if(hidden)
+            if (hidden)
                 startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 
             startInfo.FileName = "cmd.exe";
@@ -104,7 +104,7 @@ namespace GUI
                         }
                     });
 
-                    if(closedException != null)
+                    if (closedException != null)
                     {
                         throw closedException;
                     }
@@ -150,7 +150,7 @@ namespace GUI
                 }
             }
 
-            
+
         }
 
         private static BitmapImage GetBitmapImageFromBytes(byte[] imageData)
