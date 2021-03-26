@@ -48,9 +48,7 @@ namespace GUI
         }
 
         private const string interpreterPath = @"D:\Itay\Python\CamcorderControl\venv\Scripts\python.exe";
-        //private const string interpreterPath = @"python";
         private const string pythonScriptPath = @"D:\Itay\BigBigProject\GUI\GUI\ModelFiles\UseModel.py";
-        //private const string pythonScriptPath = @"D:\Itay\Python\CamcorderControl\Test\test1.py";
         private const int PATH_UNUSED_DIRECTION = 23; //  'bin\Debug\netcoreapp3.1' len, need only the direction before this part (full path: 'G:\C#\runPySctript\cSharp\bin\Debug\netcoreapp3.1')
 
         private static void run_command(string cmd, bool hidden = false)
@@ -116,7 +114,6 @@ namespace GUI
 
                     if (isExec != 1)
                         continue;
-
 
 
                     Int64 gestId = SQLiteDataAccess.getGestureID($"{gest}", ((int)side) - 1);
