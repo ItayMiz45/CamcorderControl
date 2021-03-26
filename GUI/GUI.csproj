@@ -155,9 +155,6 @@
     <None Include="ModelFiles\HandSegmenter.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ModelFiles\UseModel.py">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ModelFiles\UseTwoModels.py" />
