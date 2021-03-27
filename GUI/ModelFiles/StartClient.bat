@@ -1,3 +1,1 @@
-d:
-cd D:\Itay\BigBigProject\GUI\GUI\ModelFiles
-D:\Itay\Python\CamcorderControl\venv\Scripts\python.exe UseTwoModels.py
+...\Scripts\python.exe ...\ModelFiles\UseTwoModels.py
