@@ -1,7 +1,7 @@
 # CamcorderControl
 Control your computer with hand gestures and ASL alphabet
 
-Code currently in branch/Develop
+Code currently in branch/GUI and branch/Develop
 
 ## Getting started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
