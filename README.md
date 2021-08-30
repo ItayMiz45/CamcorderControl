@@ -3,6 +3,8 @@ Control your computer with hand gestures and ASL alphabet
 
 Code currently in branch/GUI and branch/Develop
 
+[Example video](https://youtu.be/_VkqnTVQd9A)
+
 ## Getting started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
