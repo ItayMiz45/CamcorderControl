@@ -1,5 +1,6 @@
 # CamcorderControl
 Control your computer with hand gestures and ASL alphabet
+
 Code currently in branch/Develop
 
 ## Getting started
